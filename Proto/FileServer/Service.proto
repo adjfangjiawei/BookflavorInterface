@@ -1,0 +1,23 @@
+syntax = "proto3";
+option cc_generic_services = true;
+package FileServer;
+
+import "google/api/field_behavior.proto";
+import "google/api/client.proto";
+import "google/api/annotations.proto";
+message CreateFileRequest {
+    int32 name = 1;
+}
+
+message CreateFileResponse {
+    int32 name = 1;
+}
+
+service FileService{
+    rpc CreateFile(CreateFileRequest) returns (CreateFileResponse) {
+        option (google.api.http) = {
+            post: "/v1/files"
+            body: "*"
+        };
+    }
+}
