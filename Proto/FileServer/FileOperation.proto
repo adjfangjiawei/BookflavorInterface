@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package FileServer;
+
+message FileOperation {
+    enum FileOperationType {
+        FILE_OPERATION_TYPE_UNSPECIFIED = 0;
+        // 上传文件
+        FILE_OPERATION_TYPE_UPLOAD_FILE = 1;
+        // 下载文件
+        FILE_OPERATION_TYPE_DOWNLOAD_FILE = 2;
+        // 删除文件
+        FILE_OPERATION_TYPE_DELETE_FILE = 3;
+    }
+
+    FileOperationType file_operation_type = 1;
+
+    // 文件名
+    string file_name = 2;
+
+    // 文件的抽样md5值，为前后各1024字节，中间1024字节的md5值三段拼接
+    string file_sample_md5 = 3;
+
+    // 文件操作状态
+    enum FileOperationStatus {
+        FILE_OPERATION_STATUS_UNSPECIFIED = 0;
+        // 文件操作中
+        FILE_OPERATION_STATUS_IN_PROGRESS = 1;
+        // 文件操作完成
+        FILE_OPERATION_STATUS_COMPLETED = 2;
+        // 文件操作失败
+        FILE_OPERATION_STATUS_FAILED = 3;
+    }
+
+    // 文件操作对应的minio中的key
+    string minio_key = 4;
+
+    // 上传文件的策略
+    message UploadFilePolicy {
+        // 上传方式
+        enum UploadMethod {
+            UPLOAD_METHOD_UNSPECIFIED = 0;
+            // 分片上传
+            UPLOAD_METHOD_SPLIT = 1;
+            // 全量上传
+            UPLOAD_METHOD_FULL = 2;
+        }
+
+        // 上传方式
+        UploadMethod upload_method = 1;
+
+        // 上传的文件是否要永久保留
+        bool is_permanent = 2;
+
+        // 上传到的文件服务器类型
+        enum FileServerType {
+            FILE_SERVER_TYPE_UNSPECIFIED = 0;
+            // minio
+            FILE_SERVER_TYPE_MINIO = 1;
+        }
+
+        FileServerType file_server_type = 3;
+    }
+
+    // 下载文件的策略
+    message DownloadFilePolicy {
+        // 下载方式
+        enum DownloadMethod {
+            DOWNLOAD_METHOD_UNSPECIFIED = 0;
+            // 分片下载
+            DOWNLOAD_METHOD_SPLIT = 1;
+            // 全量下载
+            DOWNLOAD_METHOD_FULL = 2;
+        }
+
+        // 如果是分片下载下载记录是否要永久保留
+        bool is_permanent = 2;
+
+        // 下载到的文件服务器类型
+        enum FileServerType {
+            FILE_SERVER_TYPE_UNSPECIFIED = 0;
+            // minio
+            FILE_SERVER_TYPE_MINIO = 1;
+        }
+
+        FileServerType file_server_type = 3;
+    }
+
+    oneof file_policy {
+        UploadFilePolicy upload_file_policy = 5;
+        DownloadFilePolicy download_file_policy = 6;
+    }
+}

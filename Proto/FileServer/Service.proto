@@ -5,16 +5,19 @@ package FileServer;
 import "google/api/field_behavior.proto";
 import "google/api/client.proto";
 import "google/api/annotations.proto";
-message CreateFileRequest {
-    int32 name = 1;
+import "Proto/FileServer/FileOperation.proto";
+message CreateFileOperationsRequest {
+    repeated FileOperation file_operations = 1;
 }
 
-message CreateFileResponse {
-    int32 name = 1;
+message CreateFileOperationsResponse {
+    repeated FileOperation file_operations = 1;
+    int32 successCreateCount = 2;
 }
 
-service FileService{
-    rpc CreateFile(CreateFileRequest) returns (CreateFileResponse) {
+service FileService {
+    rpc CreateFileOperations(CreateFileOperationsRequest)
+        returns (CreateFileOperationsResponse) {
         option (google.api.http) = {
             post: "/v1/files"
             body: "*"

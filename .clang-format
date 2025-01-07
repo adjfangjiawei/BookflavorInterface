@@ -1,0 +1,6 @@
+# .clang-format
+BasedOnStyle: Google
+Language: Proto
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
