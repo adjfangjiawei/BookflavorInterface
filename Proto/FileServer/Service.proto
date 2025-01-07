@@ -6,6 +6,7 @@ import "google/api/field_behavior.proto";
 import "google/api/client.proto";
 import "google/api/annotations.proto";
 import "Proto/FileServer/FileOperation.proto";
+import "Proto/FileServer/FileShard.proto";
 message CreateFileOperationsRequest {
     repeated FileOperation file_operations = 1;
 }
@@ -15,11 +16,28 @@ message CreateFileOperationsResponse {
     int32 successCreateCount = 2;
 }
 
+message CreateFileShardsRequest {
+    repeated FileShard file_shards = 1;
+}
+
+message CreateFileShardsResponse {
+    repeated FileShard file_shards = 1;
+    int32 successCreateCount = 2;
+}
+
 service FileService {
     rpc CreateFileOperations(CreateFileOperationsRequest)
         returns (CreateFileOperationsResponse) {
         option (google.api.http) = {
             post: "/v1/files"
+            body: "*"
+        };
+    }
+
+    rpc CreateFileShards(CreateFileShardsRequest)
+        returns (CreateFileShardsResponse) {
+        option (google.api.http) = {
+            post: "/v1/files/shards"
             body: "*"
         };
     }

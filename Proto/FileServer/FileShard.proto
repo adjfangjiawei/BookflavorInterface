@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package FileServer;
+
+message FileShard {
+    // S3 对应的上传Id
+    int32 s3_upload_id = 1;
+    // 对应的文件操作id
+    int32 file_operation_id = 2;
+    // 文件分片id
+    int32 shard_id = 3;
+    // 文件分片大小
+    int32 shard_size = 4;
+    // 文件分片的md5值
+    string shard_md5 = 5;
+    // 文件分片的s3的Etag
+    string shard_s3_etag = 6;
+    // 文件分片的索引
+    int32 shard_index = 7;
+};
