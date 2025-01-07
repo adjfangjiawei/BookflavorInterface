@@ -32,6 +32,8 @@ message FileOperation {
         FILE_OPERATION_STATUS_FAILED = 3;
     }
 
+    FileOperationStatus operation_status = 8;
+
     // 文件操作对应的minio中的key
     string minio_key = 4;
 
@@ -73,6 +75,9 @@ message FileOperation {
             DOWNLOAD_METHOD_FULL = 2;
         }
 
+        // 下载方式
+        DownloadMethod download_method = 1;
+
         // 如果是分片下载下载记录是否要永久保留
         bool is_permanent = 2;
 
@@ -90,4 +95,6 @@ message FileOperation {
         UploadFilePolicy upload_file_policy = 5;
         DownloadFilePolicy download_file_policy = 6;
     }
+
+    int32 upload_id = 7;
 }
