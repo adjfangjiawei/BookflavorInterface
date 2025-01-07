@@ -4,7 +4,7 @@ package FileServer;
 
 message FileShard {
     // S3 对应的上传Id
-    int32 s3_upload_id = 1;
+    int32 s3_uploadordownload_id = 1;
     // 对应的文件操作id
     int32 file_operation_id = 2;
     // 文件分片id
